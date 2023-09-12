@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomadcoder_flutter_webtoon/widgets/button.dart';
 
 void main() {
   runApp(const App());
@@ -69,25 +70,18 @@ class App extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              Row(
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF2B33A),
-                      borderRadius: BorderRadius.circular(45),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 24,
-                        horizontal: 40,
-                      ),
-                      child: Text(
-                        "Transfer",
-                        style: TextStyle(
-                          fontSize: 22,
-                        ),
-                      ),
-                    ),
+                  Button(
+                    text: 'Transfer',
+                    bgColor: Color(0xFFF2B33A),
+                    textColor: Colors.black,
+                  ),
+                  Button(
+                    text: 'Request',
+                    bgColor: Color(0xfff1f2123),
+                    textColor: Colors.white,
                   ),
                 ],
               ),
