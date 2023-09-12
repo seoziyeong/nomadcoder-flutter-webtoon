@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 // StatelessWidget을 상속받아 위젯화
 // 모든 앱의 기본 UI 설정: CupertinoApp or MaterialApp 중에 선택 (apple or google)
 // 모든 화면은 Scaffold(구조)를 가져야 함
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xFF181818),
+        backgroundColor: const Color(0xFF181818),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 80,
               ),
               Row(
@@ -27,7 +29,7 @@ class App extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("Hey, Berry",
+                      const Text("Hey, Berry 🍓",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -44,7 +46,7 @@ class App extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 120,
               ),
               Text(
@@ -54,27 +56,27 @@ class App extends StatelessWidget {
                   color: Colors.white.withOpacity(0.7),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Text(
+              const Text(
                 "\$5 184 482",
                 style: TextStyle(
                     fontSize: 48,
                     color: Colors.white,
                     fontWeight: FontWeight.w700),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               Row(
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFF2B33A),
+                      color: const Color(0xFFF2B33A),
                       borderRadius: BorderRadius.circular(45),
                     ),
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 24,
                         horizontal: 40,
