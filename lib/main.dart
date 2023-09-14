@@ -21,6 +21,7 @@ class App extends StatelessWidget {
 
 // Image 불러올 때 시뮬레이터 403 에러 fix
 // User-Agent 추가
+// 공부할 때만 사용해야 하는 코드
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
