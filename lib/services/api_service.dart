@@ -1,0 +1,28 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:nomadcoder_flutter_webtoon/models/webtoon_model.dart';
+
+class ApiService {
+  static const String baseUrl =
+      "https://webtoon-crawler.nomadcoders.workers.dev";
+  static const String today = "today";
+
+  static Future<List<WebtoonModel>> getTodaysToons() async {
+    List<WebtoonModel> webtoonInstances = [];
+
+    final url = Uri.parse("$baseUrl/$today");
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      // json 스트링 -> json 자료형으로 변환
+      final List<dynamic> webtoons = jsonDecode(response.body);
+
+      // json 자료형 -> 객체로 변환
+      for (var webtoon in webtoons) {
+        final instance = WebtoonModel.fromJson(webtoon);
+        webtoonInstances.add(instance);
+      }
+      return webtoonInstances;
+    }
+    throw Error();
+  }
+}

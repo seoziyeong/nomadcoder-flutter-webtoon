@@ -1,25 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:nomadcoder_flutter_webtoon/screens/home.screen.dart';
+import 'package:nomadcoder_flutter_webtoon/screens/home_screen.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const App());
 }
 
-// StatelessWidget을 상속받아 위젯화
-// 모든 앱의 기본 UI 설정: CupertinoApp or MaterialApp 중에 선택 (apple or google)
-// 모든 화면은 Scaffold(구조)를 가져야 함
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: HomeScreen(),
-      // home: Scaffold(
-      //   backgroundColor: const Color(0xFF181818),
-      //   body: Container(),
-      //   // 세로 스크롤
-      // ),
     );
+  }
+}
+
+// Image 불러올 때 시뮬레이터 403 에러 fix
+// User-Agent 추가
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..userAgent =
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
   }
 }
