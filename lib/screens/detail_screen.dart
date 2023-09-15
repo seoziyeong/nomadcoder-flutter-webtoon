@@ -3,6 +3,7 @@ import 'package:nomadcoder_flutter_webtoon/models/webtoon_episode_model.dart';
 import 'package:nomadcoder_flutter_webtoon/models/webtton_detail_model.dart';
 import 'package:nomadcoder_flutter_webtoon/services/api_service.dart';
 import 'package:nomadcoder_flutter_webtoon/widgets/episode_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,10 +27,52 @@ class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
 
+  // * shared_preference
+  // * 브라우저의 로컬스토리지 같은 개념! 저장소를 만든다
+  // Obtain shared preferences.
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    // 저장소 가져오기,
+    prefs = await SharedPreferences.getInstance();
+    // likedToons 를 가져온다
+    final likedToons = prefs.getStringList("likedToons");
+    if (likedToons != null) {
+      // 배열 안에 웹툰의 id값이 있으면 아이콘 토글
+      if (likedToons.contains(widget.id) == true) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      // likedToons가 없으면, (첫 실행시) likedToons 배열 생성
+      await prefs.setStringList("likedToons", []);
+    }
+  }
+
+  onHeartTap() async {
+    final likedToons = prefs.getStringList("likedToons");
+    if (likedToons != null) {
+      // 배열 안에 웹툰의 id값이 있으면 아이콘 토글
+      if (isLiked) {
+        likedToons.remove(widget.id);
+      } else {
+        likedToons.add(widget.id);
+      }
+      await prefs.setStringList("likedToons", likedToons);
+      setState(() {
+        isLiked = !isLiked;
+      });
+    }
+  }
+
   @override
   void initState() {
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodeById(widget.id);
+
+    initPrefs();
   }
 
   @override
@@ -38,8 +81,8 @@ class _DetailScreenState extends State<DetailScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          widget
-              .title, // * widget : 부모 클래스를 뜻함, 부모에서 받아온다~ 이런 뜻 (여기선 DetailScreen)
+          // * widget : 부모 클래스를 뜻함, 부모에서 받아온다~ 이런 뜻 (여기선 DetailScreen)
+          widget.title,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
@@ -48,6 +91,14 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
         elevation: 0.5,
+        actions: [
+          IconButton(
+            onPressed: onHeartTap,
+            icon: Icon(
+              isLiked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
