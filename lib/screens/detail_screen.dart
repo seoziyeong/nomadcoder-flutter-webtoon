@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nomadcoder_flutter_webtoon/models/webtoon_episode_model.dart';
 import 'package:nomadcoder_flutter_webtoon/models/webtton_detail_model.dart';
 import 'package:nomadcoder_flutter_webtoon/services/api_service.dart';
+import 'package:nomadcoder_flutter_webtoon/widgets/episode_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
@@ -116,38 +119,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     return Column(
                       children: [
                         for (var episode in snapshot.data!)
-                          Container(
-                            decoration: const BoxDecoration(
-                              // color: Colors.black12,
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1.5, color: Colors.black12),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 24,
-                                horizontal: 24,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    episode.title,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.chevron_right_rounded,
-                                    color: Colors.green,
-                                  )
-                                ],
-                              ),
-                            ),
+                          Episode(
+                            episode: episode,
+                            webtoonId: widget.id,
                           ),
                       ],
                     );
